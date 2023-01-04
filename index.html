@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+	<link rel="stylesheet" href="css/bootstrap.css">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container-fluid">
+    	<div class="row bg-light p-4">
+    			<div class="col-sm-12 text-center">
+    				<h3><b>Register</b>With Us</h3>
+    				<p>You are just one step behind to join the Techpile. I promise you to give my best if you will ll be a part of Techpile.</p>
+    			</div>
+    		</div>
+    	<div class="row justify-content-center bg-light">
+    			<div class="col-sm-4">
+                <form onsubmit="return false">
+                    <input type="hidden" name="hidden" id="hidden"/>
+    				Enroll No : <p class="input-group"><span class="input-group-text"><i class="fa-solid fa-pencil"></i></span><input type="text" class="form-control" disabled  id="enroll_no" value="TPK-ST" /></p>
+    				Name :<p class="input-group "><span class="input-group-text"><i class="fa-solid fa-user"></i></span><input type="text" class="form-control" id="name" placeholder="Username" /></p>
+    				College Name :<p class="input-group "><span class="input-group-text"><i class="fa-solid fa-building-columns"></i></span><input type="text" class="form-control" id="college_name" /></p>
+    				Year :<p class="input-group "><span class="input-group-text"><i class="fa-solid fa-clock"></i></span>
+                        <select class="form-control" id="year">
+                        	<option disabled selected>Select Pursuing year</option>
+                        	<option>First Year</option>
+                        	<option>Second Year</option>
+                        	<option>Third Year</option>
+                        	<option>Fourth Year</option>
+                        </select>
+    				</p>
+    				Email Id :<p class="input-group "><span class="input-group-text"><i class="fa-solid fa-envelope"></i></span><input type="text" class="form-control" id="email_id" placeholder="Email ID" /></p>
+    				<p><button class="btn btn-md btn-warning text-white" id="btn" onclick="register(this)">Register Now</button></p>
+    			</div>
+    		    <div class="col-sm-4">
+    				Today Is :<p class="input-group "><span class="input-group-text"><i class="fa-solid fa-calendar-days"></i></span><input type="text" class="form-control" disabled id="today_is" /></p>
+    				Apply For :<p class="input-group "><span class="input-group-text"><i class="fa-solid fa-pencil"></i></span><select class="form-control" id="apply_for" onchange="applyFor(this)">
+    					    <option selected disabled required>Select Training Name</option>
+    					    <option >Syllabus Training(Without Project)</option>
+    					    <option >Syllabus Training(With Project)</option>
+    					    <option >Syllabus Training(Only Registration)</option>
+    					    <option >Vocational Training</option>
+    					    <option >Industrial Training</option>
+    					    <option >Summer Training</option>
+    					    <option >Winter Training</option>
+    					    <option >Apprenticeship Training</option>
+    					    <option >JavaScript & Jquery</option>
+    					    <option >Other</option>
+    				    </select>
+    				</p>
+    				Course :<p class="input-group "><span class="input-group-text"><i class="fa-solid fa-tv"></i></span>
+    				    <select class="form-control" id="course">
+    					    <option disabled selected>Select Your Course</option>
+                            <option>B.TECH (CSE)</option>    					    
+                            <option>B.TECH (IT)</option>    					    
+                            <option>POLYTECHNIC (CSE)</option>    					    
+                            <option>POLYTECHNIC (IT)</option>    					    
+                            <option>BCA</option>    					    
+                            <option>MCA</option>
+                            <option>OTHER</option>    					        					    
+    				    </select>
+    				</p>
+    				Contact No :<p class="input-group "><span class="input-group-text"><i class="fa-solid fa-phone"></i></span><input type="text" class="form-control" id="contact_no" placeholder="Mobile No." /></p>
+    		    	Amount To Pay :<p class="input-group "><span class="input-group-text"><i class="fa-sharp fa-solid fa-indian-rupee-sign"></i></span><input type="text" class="form-control" disabled id="amount_to_pay" /></p>
+                </form>
+    		    </div>
+    	</div>
+    	<div class="row">
+    		<div class="col-sm-12">
+    			<table class="table table-bordered table-striped">
+    				<thead>
+    					<th>SN.</th>
+    					<th>Enrollno.</th>
+    					<th>Name</th>
+    					<th>College</th>
+    					<th>Year</th>
+                        <th>Email</th>
+                        <th>Program</th>
+                        <th>Course</th>
+                        <th>Contact No.</th>
+                        <th>Date</th>
+                        <th>Amount Paid</th>
+                        <th>Action</th>
+    				</thead>
+    				<tbody id="bindTableData">
+    					
+    				</tbody>
+    			</table>
+    		</div>
+    	</div>
+    </div>
+    <script>
+    	function defaultField(){
+          var today=new Date()
+          $('#today_is').value=today.toLocaleDateString()
+          $('#enroll_no').value="TPK-ST";
+        }
+        (()=>{
+            defaultField()
+        })();
+
+        var keys=['enroll_no','name','college_name','year','email_id','today_is','apply_for','course','contact_no','amount_to_pay']
+        var registrationData=[]
+
+        function register(e){
+        	var obj={}
+        	if(e.innerText=='Register Now'){
+        		keys.map((data,index)=>{
+	        		id='#'+data
+	                	obj[keys[index]]=$(id).value
+	        	})
+	        	registrationData.push(obj)
+            }
+            else if(e.innerText=='Update Now'){
+                var index=$('#hidden').value;
+                keys.map((data)=>{
+                    id='#'+data
+                    registrationData[index][data]=$(id).value
+                })
+              $('#btn').innerText="Register Now";
+              $('#btn').setAttribute('class',"btn btn-md btn-warning")
+            }
+            defaultField()
+        	bindTable()
+        }
+
+        function bindTable(){
+        	 row='';
+        		registrationData.map((data,index)=>{
+        		row+=`<tr>
+        		      <td>${index+1}</td>
+        		      <td>${data.enroll_no}</td>
+        		      <td>${data.name}</td>
+        		      <td>${data.college_name}</td>
+        		      <td>${data.year}</td>
+        		      <td>${data.email_id}</td>
+        		      <td>${data.apply_for}</td>
+        		      <td>${data.course}</td>
+        		      <td>${data.contact_no}</td>
+        		      <td>${data.today_is}</td>
+        		      <td>${data.amount_to_pay}</td>
+        		      <td><button class="btn btn-warning btn btn-sm" onclick="editData(${index})">Edit</button>&nbsp;<button class="btn btn-sm btn-danger" onclick="removeData(${index})">Delete</button></td></tr>`
+        	})
+        	$('#bindTableData').innerHTML=row
+        }
+        
+        function removeData(data){
+        	   console.log(data)
+              registrationData.splice(data,1)
+              bindTable(registrationData)
+        }
+        function editData(index){
+              keys.map((data,inx)=>{
+              	id='#'+data
+              	$(id).value=registrationData[index][data]
+              })
+            $('#hidden').value=index;
+            $('#btn').innerText="Update Now"
+            $('#btn').setAttribute('class',"btn btn-md btn-primary")
+
+        }
+//apply for trainning 
+        function applyFor(e){
+        	if(e.value=='Syllabus Training(Without Project)'){
+        		$('#amount_to_pay').value=1500;
+        	}
+        	else if(e.value=='Syllabus Training(With Project)'){
+        		$('#amount_to_pay').value=2000;
+        	}
+        	else if(e.value=='Apprenticeship Training' || e.value=='JavaScript & Jquery'){
+        		$('#amount_to_pay').value=1000;
+            }
+            else{
+            	$('#amount_to_pay').value=500;
+            }
+        }
+
+    	function $(element){
+    		return document.querySelector(element)
+    	}
+    </script>
+</body>
+</html>
